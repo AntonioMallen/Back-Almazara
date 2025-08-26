@@ -1,0 +1,299 @@
+[
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.AuthController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/v1/Auth/ChangePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "Back_Almazara.DTOS.ChangePassDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/v1/Auth/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "Back_Almazara.DTOS.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/v1/Auth/Register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "register",
+        "Type": "Back_Almazara.DTOS.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.CommentsController",
+    "Method": "Create",
+    "RelativePath": "api/v1/Comments/Create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice",
+        "Type": "Back_Almazara.Models.CommentViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.CommentsController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/Comments/Delete",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "comment_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.CommentsController",
+    "Method": "Edit",
+    "RelativePath": "api/v1/Comments/Edit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice",
+        "Type": "Back_Almazara.Models.CommentViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.CommentsController",
+    "Method": "Index",
+    "RelativePath": "api/v1/Comments/Index",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.EmailController",
+    "Method": "RememberMe",
+    "RelativePath": "api/v1/Email/RememberMe",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "content",
+        "Type": "Back_Almazara.DTOS.RememberMeDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.EmailController",
+    "Method": "SupportEmail",
+    "RelativePath": "api/v1/Email/SupportEmail",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "content",
+        "Type": "Back_Almazara.ViewModel.EmailViewModal",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "Create",
+    "RelativePath": "api/v1/Notices/Create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice",
+        "Type": "Back_Almazara.DTOS.NoticeCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/Notices/Delete",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "Details",
+    "RelativePath": "api/v1/Notices/Details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "Edit",
+    "RelativePath": "api/v1/Notices/Edit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notice",
+        "Type": "Back_Almazara.ViewModel.NoticeDetailViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "FavoriteNotice",
+    "RelativePath": "api/v1/Notices/Favorite",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favoriteInfo",
+        "Type": "Back_Almazara.ViewModel.FavoriteViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "Index",
+    "RelativePath": "api/v1/Notices/Index",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.NoticesController",
+    "Method": "IndexFavorites",
+    "RelativePath": "api/v1/Notices/IndexFavorites",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.RolesController",
+    "Method": "Index",
+    "RelativePath": "api/v1/Roles/Index",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.RolesController",
+    "Method": "ListRoles",
+    "RelativePath": "api/v1/Roles/ListRoles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Back_Almazara.Controllers.V1.RolesController",
+    "Method": "Modify",
+    "RelativePath": "api/v1/Roles/Modify",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "role_id_i",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
