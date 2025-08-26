@@ -90,9 +90,11 @@ Back-Almazara/
 
 ---
 
-## 🙋‍♂️ Autor y Contacto
 
-- **Antonio Mallen** – antoniomallen1@gmail.com
+## Autor 👨💻
+
+**Antonio Mallen**  
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-blue?logo=github)](https://github.com/AntonioMallen)
 
 ---
 
