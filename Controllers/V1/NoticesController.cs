@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Back_Almazara.DTOS;
+using Back_Almazara.Models;
 using Back_Almazara.Service.V1;
 using Back_Almazara.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,11 @@ namespace Back_Almazara.Controllers.V1
     public class NoticesController : ControllerBase
     {
         private readonly INoticeService _service;
+        private readonly IRedisCacheService _cache;
 
-        public NoticesController(INoticeService service) {
+        public NoticesController(INoticeService service, IRedisCacheService cache) {
             _service = service;
+            _cache = cache;
         }
 
         /// <summary>
@@ -25,11 +28,28 @@ namespace Back_Almazara.Controllers.V1
         [ApiVersion(1.0)]
         [HttpGet("Index")]
         [Autorize(-1)]
-        public ActionResult Index(string user_id_i)
+        public async Task<ActionResult> Index(string user_id_i)
         {
+            var cacheKey = $"notices:user:{user_id_i}";
+
+            // Intentar obtener del cache
+            var cachedNotices = await _cache.GetAsync<List<NoticeDTO>>(cacheKey);
+            if (cachedNotices != null)
+            {
+                return Ok(cachedNotices);
+            }
+
+            // Si no está en cache, obtener de la base de datos
             var response = _service.Index(user_id_i);
             if (response.Success)
             {
+                // Guardar en cache con tags
+                await _cache.SetWithTagsAsync(
+                    cacheKey,
+                    response.Data,
+                    new[] { "notices", $"user:{user_id_i}" }
+                );
+
                 return Ok(response.Data);
             }
 
@@ -43,11 +63,25 @@ namespace Back_Almazara.Controllers.V1
         /// <returns>Notice with all the information and content</returns>
         [HttpGet("Details")]
         [Autorize(-1)]
-        public ActionResult Details(string notice_id_i )
+        public async Task<ActionResult> Details(string notice_id_i )
         {
+            var cacheKey = $"notices:detail:{notice_id_i}";
+
+            var cachedNotice = await _cache.GetAsync<NoticeDetailDTO>(cacheKey);
+            if (cachedNotice != null)
+            {
+                return Ok(cachedNotice);
+            }
+
             var response = _service.Detail(notice_id_i);
             if (response.Success)
             {
+                await _cache.SetWithTagsAsync(
+                    cacheKey,
+                    response.Data,
+                    new[] { "notices", "notice_details", $"notice:{notice_id_i}" },
+                    30 // 30 minutos para detalles (más tiempo que listados)
+                );
                 return Ok(response.Data);
             }
 
@@ -62,11 +96,24 @@ namespace Back_Almazara.Controllers.V1
         [ApiVersion(1.0)]
         [HttpGet("IndexFavorites")]
         [Autorize(4)]
-        public ActionResult IndexFavorites(string user_id_i)
+        public async Task<ActionResult> IndexFavorites(string user_id_i)
         {
+            string cacheKey = $"notices:favorites:user:{user_id_i}";
+
+            var cachedFavorites = await _cache.GetAsync<List<NoticeDTO>>(cacheKey);
+            if (cachedFavorites != null)
+            {
+                return Ok(cachedFavorites);
+            }
+
             var response = _service.IndexFavorites(user_id_i);
             if (response.Success)
             {
+                await _cache.SetWithTagsAsync(
+                  cacheKey,
+                  response.Data,
+                  new[] { "notices", "favorites", $"user:{user_id_i}" }
+              );
                 return Ok(response.Data);
             }
 
@@ -80,11 +127,13 @@ namespace Back_Almazara.Controllers.V1
         /// <returns>Creates a notice</returns>
         [HttpPost("Create")]
         [Autorize(2)]
-        public ActionResult Create(NoticeCreateDTO notice)
+        public async Task<ActionResult> Create(NoticeCreateDTO notice)
         {
             var response = _service.Create(notice);
             if (response.Success)
             {
+                await _cache.InvalidateByTagAsync("notices");
+
                 return Ok(response.Message);
             }
 
@@ -98,11 +147,14 @@ namespace Back_Almazara.Controllers.V1
         /// <returns>Edits a real notice</returns>
         [HttpPut("Edit")]
         [Autorize(3)]
-        public ActionResult Edit(NoticeDetailViewModel notice)
+        public async Task<ActionResult> Edit(NoticeDetailViewModel notice)
         {
             var response = _service.Edit(notice);
             if (response.Success)
             {
+                await _cache.InvalidateByTagAsync("notices");
+                await _cache.InvalidateByTagAsync("notice_details");
+                await _cache.InvalidateByTagAsync($"notice:{notice.IdI}");
                 return Ok(response.Message);
             }
 
@@ -116,11 +168,15 @@ namespace Back_Almazara.Controllers.V1
         /// <returns>True or False if its done</returns>
         [HttpPost("Delete")]
         [Autorize(2)]
-        public ActionResult Delete(string notice_id_i)
+        public async Task<ActionResult> Delete(string notice_id_i)
         {
             var response = _service.Delete(notice_id_i);
             if (response.Success)
             {
+                await _cache.InvalidateByTagAsync("notices");
+                await _cache.InvalidateByTagAsync("notice_details");
+                await _cache.InvalidateByTagAsync($"notice:{notice_id_i}");
+
                 return Ok(response.Message);
             }
 
@@ -134,11 +190,14 @@ namespace Back_Almazara.Controllers.V1
         /// <returns>True or False if its done</returns>
         [HttpPost("Favorite")]
         [Autorize(4)]
-        public ActionResult FavoriteNotice(FavoriteViewModel favoriteInfo)
+        public async Task<ActionResult> FavoriteNotice(FavoriteViewModel favoriteInfo)
         {
             var response = _service.FavoriteNotice(favoriteInfo);
             if (response.Success)
             {
+                await _cache.InvalidateByTagAsync("favorites");
+                await _cache.InvalidateByTagAsync($"user:{favoriteInfo.user_id_i}");
+
                 return Ok("Se ha modificado el favorito");
             }
 

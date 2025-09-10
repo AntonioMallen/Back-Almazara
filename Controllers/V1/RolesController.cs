@@ -13,9 +13,12 @@ namespace Back_Almazara.Controllers.V1
     public class RolesController : ControllerBase
     {
         private readonly IRolesService _service;
+        private readonly IRedisCacheService _cache;
 
-        public RolesController(IRolesService service) {
+        public RolesController(IRolesService service, IRedisCacheService cache)
+        {
             _service = service;
+            _cache = cache;
         }
 
         /// <summary>
@@ -25,11 +28,23 @@ namespace Back_Almazara.Controllers.V1
         [ApiVersion(1.0)]
         [HttpGet("Index")]
         [Autorize(1)]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            var cacheKey = "roles:users";
+            var cached = await _cache.GetAsync<List<RoleResultDTO>>(cacheKey);
+            if (cached != null)
+            {
+                return Ok(cached);
+            }
+
             var response = _service.Index();
             if (response.Success)
             {
+                await _cache.SetWithTagsAsync(
+                    cacheKey,
+                    response.Data,
+                    new[] { "roles" }
+                );
                 return Ok(response.Data);
             }
 
@@ -37,16 +52,29 @@ namespace Back_Almazara.Controllers.V1
         }
 
         /// <summary>
-        /// Controller that gets the list of roles
+        /// Controller that gets the list of roles types
         /// </summary>
         /// <returns>List of distinct roles</returns>
         [HttpGet("ListRoles")]
         [Autorize(1)]
-        public ActionResult ListRoles()
+        public async Task<ActionResult> ListRoles()
         {
+            var cacheKey = "roles:list";
+            var cached = await _cache.GetAsync<List<RoleDTO>>(cacheKey);
+            if (cached != null)
+            {
+                return Ok(cached);
+            }
+
             var response = _service.ListRoles();
             if (response.Success)
             {
+                await _cache.SetWithTagsAsync(
+                    cacheKey,
+                    response.Data,
+                    new[] { "roles" },
+                    60 
+                );
                 return Ok(response.Data);
             }
 
@@ -60,11 +88,12 @@ namespace Back_Almazara.Controllers.V1
         /// <returns>Edits a real notice</returns>
         [HttpPost("Modify")]
         [Autorize(3)]
-        public ActionResult Modify(string user_id_i, string role_id_i)
+        public async Task<ActionResult> Modify(string user_id_i, string role_id_i)
         {
             var response = _service.Modify(user_id_i, role_id_i);
             if (response.Success)
             {
+                await _cache.InvalidateByTagAsync("roles");
                 return Ok(response.Message);
             }
 

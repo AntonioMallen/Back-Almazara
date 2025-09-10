@@ -11,8 +11,28 @@ using Back_Almazara.Service.V1;
 using Back_Almazara.Repository.V1;
 using Back_Almazara.Utility;
 using static Back_Almazara.Utility.TypeConverter;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Redis
+var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+var redisConfig = ConfigurationOptions.Parse(redisConnectionString);
+redisConfig.AbortOnConnectFail = false;
+redisConfig.ConnectTimeout = 5000;
+redisConfig.SyncTimeout = 5000;
+redisConfig.ReconnectRetryPolicy = new ExponentialRetry(5000);
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.InstanceName = "Almazara_";
+    options.ConfigurationOptions = redisConfig;
+});
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
+    ConnectionMultiplexer.Connect(redisConfig)
+);
+
 
 // Add services to the container.
 
@@ -27,6 +47,7 @@ builder.Services.AddScoped<INoticeService, NoticeService>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<IRolesService, RolesService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
 builder.Services.AddScoped<StringToByteArrayConverter>();
 builder.Services.AddScoped<ByteArrayToStringConverter>();
 

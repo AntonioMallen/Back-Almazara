@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Back-Almazara")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98a135de9a1a858ac2cc5e4419d4f8cbb616fbe9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e78ac3c87d4070441ef82e89c7a3396cf5dcfac8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Back-Almazara")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Back-Almazara")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
