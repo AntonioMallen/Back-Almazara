@@ -15,6 +15,7 @@ Backend para la gestión de Almazara, implementado en **.NET 8** con arquitectur
 - **Middlewares personalizados**
 - **Docker**
 - **SQL Server**
+- **Redis**
 
 ---
 
@@ -23,6 +24,7 @@ Backend para la gestión de Almazara, implementado en **.NET 8** con arquitectur
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [SQL Server](https://www.microsoft.com/es-es/sql-server) (o dockerizado)
 - [Docker](https://www.docker.com/) (opcional, para despliegues)
+- [Redis](https://redis.io) (opcional, para cache)
 
 ---
 
@@ -66,10 +68,11 @@ docker run -d -p 5000:5000 -p 5001:5001 --name back-almazara back-almazara
 ## 📁 Estructura del Proyecto
 ```
 Back-Almazara/
-├─ BackAlmazara.Api/ # Controladores, configuración de app
-├─ BackAlmazara.Core/ # Entidades, interfaces, DTOs
-├─ BackAlmazara.Infrastructure/# Persistencia, EF context
-├─ BackAlmazara.Application/ # Lógica de negocio, servicios, mapeado DTOs
+├─ BackAlmazara.Controller/ # Controladores, configuración de app
+├─ BackAlmazara.Models/ # Entidades, EntityFramework Connection
+├─ BackAlmazara.DTOS/ # DTOs
+├─ BackAlmazara.Repository/# Persistencia, EF context
+├─ BackAlmazara.Services/ # Lógica de negocio, servicios, mapeado DTOs
 ├─ BackAlmazara.Validation/ # Validadores FluentValidation
 ├─ BackAlmazara.Middlewares/ # Middlewares personalizados
 └─ Dockerfile
@@ -87,6 +90,7 @@ Back-Almazara/
 - **Middlewares para gestión de errores y registros**
 - **Control de acceso y autenticación**
 - **Versionamiento**
+- **Cache**
 
 ---
 
